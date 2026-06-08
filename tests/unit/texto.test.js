@@ -23,7 +23,17 @@ describe('validarTexto', () => {
     expect(resultado.valido).toBe(true);
   });
 
+  // --- Casos inválidos ---
+  it('debe retornar inválido cuando el texto está vacío', () => {
+    const resultado = validarTexto('');
+    expect(resultado.valido).toBe(false);
+  });
 
+    it('debe retornar inválido cuando el texto es <3 caract.', () => {
+    const resultado = validarTexto('Hi');
+    expect(resultado.valido).toBe(false);
+    expect(resultado.error).toContain('menos 3');
+  });
 });
 
 // ============================================================
@@ -40,5 +50,8 @@ describe('formatearTexto', () => {
     expect(resultado).toBe('');
   });
 
-  
+  it('debe retornar un string vacío si solo hay espacios', () => {
+    const resultado = formatearTexto('   ');
+    expect(resultado).toBe('');
+  })
 });

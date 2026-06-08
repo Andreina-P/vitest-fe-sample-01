@@ -23,8 +23,6 @@ describe('crearTareaElemento', () => {
     expect(li.tagName).toBe('LI');
     expect(li.classList.contains('tarea-item')).toBe(true);
   });
-
-  
 });
 
 describe('agregarTarea', () => {
@@ -42,6 +40,11 @@ describe('agregarTarea', () => {
   });
 
   
+  it('debe formatear el texto antes de agregar (primera mayus. siguiente minus.)', () => {
+    agregarTarea(' esTuDiAr VerIFicAcIoN dE Sw', lista);
+    const span = lista.querySelector('.tarea-texto');
+    expect(span.textContent).toBe('Estudiar verificacion de sw');
+  });
 });
 
 describe('eliminarTarea', () => {
