@@ -88,13 +88,14 @@ describe('alternarTarea', () => {
   });
 
   // --- casos extras ---
-  it('debe alternar el evento change del checkbox cuando se hace clic en él', () => {});
+  it('debe alternar el evento change del checkbox cuando se hace clic en él', () => {
     const li = crearTareaElemento('Tarea test');
     const checkbox = li.querySelector('.tarea-checkbox');
     checkbox.checked = true;
 
     checkbox.dispatchEvent(new Event('change'));
     expect(li.classList.contains('completada')).toBe(true);
+  });
 });
 
 describe('limpiarCompletadas', () => {
