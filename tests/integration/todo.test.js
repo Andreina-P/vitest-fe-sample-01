@@ -45,6 +45,14 @@ describe('agregarTarea', () => {
     const span = lista.querySelector('.tarea-texto');
     expect(span.textContent).toBe('Estudiar verificacion de sw');
   });
+
+  // --- casos extras ---
+  it('debe ser válido agregar una tarea con un texto de exactamente 200 caracteres', () => {
+    const texto = 'A'.repeat(200);
+    const resultado = agregarTarea(texto, lista);
+    expect(resultado.exito).toBe(true);
+    expect(lista.children.length).toBe(1);
+  });
 });
 
 describe('eliminarTarea', () => {
@@ -54,6 +62,17 @@ describe('eliminarTarea', () => {
     const li = lista.querySelector('.tarea-item');
 
     eliminarTarea(li);
+    expect(lista.children.length).toBe(0);
+  });
+
+  // --- casos extras ---
+  it('debe eliminar un elemento de la lista al hacer clic en el botón de eliminar', () => {
+    const lista = crearLista();
+    agregarTarea('Tarea a eliminar test', lista);
+    const li = lista.querySelector('.tarea-item');
+    const botonElim = li.querySelector('.btn-eliminar');
+
+    botonElim.click();
     expect(lista.children.length).toBe(0);
   });
 });
@@ -68,7 +87,14 @@ describe('alternarTarea', () => {
     expect(li.classList.contains('completada')).toBe(true);
   });
 
-  
+  // --- casos extras ---
+  it('debe alternar el evento change del checkbox cuando se hace clic en él', () => {});
+    const li = crearTareaElemento('Tarea test');
+    const checkbox = li.querySelector('.tarea-checkbox');
+    checkbox.checked = true;
+
+    checkbox.dispatchEvent(new Event('change'));
+    expect(li.classList.contains('completada')).toBe(true);
 });
 
 describe('limpiarCompletadas', () => {
@@ -89,7 +115,26 @@ describe('limpiarCompletadas', () => {
     expect(lista.querySelector('.tarea-texto').textContent).toBe('Tarea pendiente');
   });
 
-  
+  // --- casos extras ---
+  it('debe quedar vacía la lista cuando todas las tareas están completadas', () => {
+    const lista = crearLista();
+    agregarTarea('Tarea completada 1', lista);
+    agregarTarea('Tarea completada 2', lista);
+
+    // Marcar la dos como completadas
+    const items = lista.querySelectorAll('.tarea-item');
+    const checkbox1 = items[0].querySelector('.tarea-checkbox');
+    const checkbox2 = items[1].querySelector('.tarea-checkbox');
+
+    checkbox1.checked = true;
+    checkbox2.checked = true;
+    alternarTarea(items[0], checkbox1);
+    alternarTarea(items[1], checkbox2);
+
+    const eliminadas = limpiarCompletadas(lista);
+    expect(eliminadas).toBe(2);
+    expect(lista.children.length).toBe(0);
+  });
 });
 
 describe('actualizarContador', () => {

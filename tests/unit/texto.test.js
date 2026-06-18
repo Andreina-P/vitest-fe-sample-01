@@ -34,6 +34,19 @@ describe('validarTexto', () => {
     expect(resultado.valido).toBe(false);
     expect(resultado.error).toContain('menos 3');
   });
+
+  // --- casos extras ---
+  it('debe retornar válido cuando el texto tiene caracteres especiales', () => {
+    const resultado = validarTexto('Hola 😊');
+    expect(resultado.valido).toBe(true);
+  });
+
+  it('debe retornar inválido cuando el texto contiene 3 espacios exactos y luego una letra', () => {
+    const resultado = validarTexto('   A');
+    expect(resultado.valido).toBe(false);
+    expect(resultado.error).toContain('menos 3');
+  });
+
 });
 
 // ============================================================
@@ -54,4 +67,15 @@ describe('formatearTexto', () => {
     const resultado = formatearTexto('   ');
     expect(resultado).toBe('');
   })
+
+  // --- casos extras ---
+  it('debe retornar la prim. mayusc. cuando el texto tiene caracteres especiales', () => {
+    const resultado = formatearTexto('árbol');
+    expect(resultado).toBe('Árbol');
+  });
+
+  it('debe retornar el mismo texto cuando el texto ya está formateado', () => {
+    const resultado = formatearTexto('Hacer verificación');
+    expect(resultado).toBe('Hacer verificación');
+  });
 });
